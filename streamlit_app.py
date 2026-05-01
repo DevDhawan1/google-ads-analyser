@@ -13,11 +13,19 @@ Deploy:
 """
 
 import io
+import os
 import re
 from datetime import datetime
 from collections import defaultdict
 
 import streamlit as st
+
+# Load .env file if present (requires python-dotenv, silently ignored if not installed)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 st.set_page_config(
     page_title="myHQ · Google Ads Agent",
@@ -298,6 +306,7 @@ with st.sidebar:
 
     developer_token_input = st.text_input(
         "Developer Token",
+        value=os.environ.get("GOOGLE_ADS_DEVELOPER_TOKEN", ""),
         type="password",
         placeholder="xxxxxxxxxxxxxxxxxxxx",
         help="From Google Ads UI → Tools → API Center. Tied to your MCC account.",
@@ -305,6 +314,7 @@ with st.sidebar:
 
     client_id_input = st.text_input(
         "OAuth2 Client ID",
+        value=os.environ.get("GOOGLE_ADS_CLIENT_ID", ""),
         type="password",
         placeholder="1234567890-abc.apps.googleusercontent.com",
         help="Google Cloud Console → APIs & Services → Credentials → OAuth 2.0 Client ID",
@@ -312,6 +322,7 @@ with st.sidebar:
 
     client_secret_input = st.text_input(
         "OAuth2 Client Secret",
+        value=os.environ.get("GOOGLE_ADS_CLIENT_SECRET", ""),
         type="password",
         placeholder="GOCSPX-xxxxxxxxxxxxxxxx",
         help="Same location as Client ID — the secret value for your Desktop app credential.",
@@ -319,6 +330,7 @@ with st.sidebar:
 
     refresh_token_input = st.text_input(
         "OAuth2 Refresh Token",
+        value=os.environ.get("GOOGLE_ADS_REFRESH_TOKEN", ""),
         type="password",
         placeholder="1//0gxxxxxxxxxxxxxxxx",
         help="Generate once using generate_refresh_token.py from google-ads-python examples.",
@@ -326,6 +338,7 @@ with st.sidebar:
 
     customer_id_input = st.text_input(
         "Customer ID",
+        value=os.environ.get("GOOGLE_ADS_CUSTOMER_ID", ""),
         placeholder="123-456-7890",
         help="The ad account to analyse. Find it in the top-right of Google Ads UI (format XXX-XXX-XXXX).",
     )
